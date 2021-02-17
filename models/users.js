@@ -15,9 +15,30 @@ let user = sequelize.define('User', {
         defaultValue: UUIDV4,
         primaryKey: true
     },
-    email: Sequelize.STRING,
-    userbane: Sequelize.STRING,
-    passward: Sequelize.STRING
+    firstname: {
+        type: Sequelize.STRING,
+        notEmpty: true
+    },
+    lastname: {
+        type: Sequelize.STRING,
+        notEmpty: true
+    },
+    username: Sequelize.TEXT,
+    email: {
+        type: Sequelize.TEXT,
+        validate: {
+            isEmail: true
+        }
+    },
+    passward: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    last_login: Sequelize.DATE,
+    status: {
+        type: Sequelize.ENUM('active', 'inactive'),
+        defaultValue: 'active'
+    }
 })
 
 class User {
