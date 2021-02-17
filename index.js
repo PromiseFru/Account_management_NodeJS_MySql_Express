@@ -1,13 +1,9 @@
 const express = require('express');
-const Sequelize = require('sequelize');
-require('./config/connection.js')();
+const session = require('express-session');
+const passport = require('passport');
 port = 3000;
 
 let app = express();
-let sequelize = new Sequelize(process.env.DATABASE, process.env.OWNER, process.env.PASSWORD, {
-    host: process.env.HOST,
-    dialect: "mysql"
-});
 
 app.get('/', (req, res) => {
     res.send('hello world working')
