@@ -1,0 +1,30 @@
+{
+  "name": "Account_management_NodeJS_MySql_Express",
+  "version": "1.0.0",
+  "description": "* Create a new User * Hashing Password * Authentication strategies * Logging User out",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PromiseFru/Account_management_NodeJS_MySql_Express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PromiseFru/Account_management_NodeJS_MySql_Express/issues"
+  },
+  "homepage": "https://github.com/PromiseFru/Account_management_NodeJS_MySql_Express#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "connect-session-sequelize": "^7.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
+  }
+}
