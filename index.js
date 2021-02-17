@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+let Port = process.env.PORT || 3000;
 require('dotenv').config();
 
 // For express
@@ -24,3 +25,5 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session()); //persistent login sessions
+
+app.listen(Port, console.log(`Server is running on port ${Port}`));

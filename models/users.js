@@ -42,14 +42,16 @@ let user = sequelize.define('User', {
 })
 
 class User {
-    newUser(name, email, passwordHash) {
+    register(firstname, lastname, username, email, password) {
         return new Promise((resolve, reject) => {
             try {
                 await user.sync();
                 let newUser = await user.create({
-                    name: name,
+                    firstname: firstname,
+                    lastname: lastname,
+                    username: username,
                     email: email,
-                    passward: passwordHash
+                    passward: password
                 })
                 resolve({
                     id: newUser.id
