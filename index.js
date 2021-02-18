@@ -6,7 +6,7 @@ const routes = require('./routes/routes.js');
 let Port = process.env.PORT || 3000;
 var Users = require('./models/users.js');
 
-let users = new Users();
+let users = Users();
 
 // For express
 let app = express();
@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
+// serve static files
+app.use(express.static(__dirname + "/public"));
 
 // routes
 routes(app, users);
@@ -28,8 +31,5 @@ app.use((req, res, next) => {
 
 // call auth
 auth(app, users);
-
-// serve static files
-app.use(express.static(__dirname + "/public"));
 
 app.listen(Port, console.log(`Server is running on port ${Port}`));

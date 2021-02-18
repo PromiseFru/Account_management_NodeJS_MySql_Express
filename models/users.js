@@ -41,17 +41,15 @@ let user = sequelize.define('User', {
     }
 })
 
-class User {
-    constructor() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                await user.sync();
-                resolve(user)
-            } catch (err) {
-                reject(err)
-            }
-        })
-    }
+let User = function () {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await user.sync();
+            resolve(user)
+        } catch (err) {
+            reject(err)
+        }
+    })
 }
 
 module.exports = User;

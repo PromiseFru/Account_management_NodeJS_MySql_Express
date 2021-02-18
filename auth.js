@@ -18,27 +18,26 @@ module.exports = function (app, model) {
 
     // passport strategy
     passport.use(new LocalStrategy(
-        function (username, password, done) {
-            model.findOne({
+        async function (username, password, done) {
+            let user = await model.findAll({
                 where: {
                     username: username
                 }
-            }, function (err, user) {
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    return done(null, false, {
-                        message: 'Incorrect username.'
-                    });
-                }
-                if (!bcrpyt.compareSync(password, user.password)) {
-                    return done(null, false, {
-                        message: 'Incorrect password.'
-                    });
-                }
-                return done(null, user);
-            });
+            }).catch(err => {
+                return done(err);
+            })
+
+            if (!user) {
+                return done(null, false, {
+                    message: 'Incorrect username.'
+                });
+            }
+            if (!bcrpyt.compareSync(password, user.password)) {
+                return done(null, false, {
+                    message: 'Incorrect password.'
+                });
+            }
+            return done(null, user);
         }
     ));
 
