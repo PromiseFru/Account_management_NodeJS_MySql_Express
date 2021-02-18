@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const routes = require('./routes/routes.js');
 let Port = process.env.PORT || 3000;
 require('dotenv').config();
 
@@ -13,6 +14,12 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
+// routes
+app.use(routes);
+
+// serve static files
+app.use(express.static(__dirname + "/public"));
 
 // For passport
 app.use(session({

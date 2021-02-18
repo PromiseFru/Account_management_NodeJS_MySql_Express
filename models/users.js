@@ -43,7 +43,7 @@ let user = sequelize.define('User', {
 
 class User {
     register(firstname, lastname, username, email, password) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 await user.sync();
                 let newUser = await user.create({
