@@ -1,31 +1,57 @@
-const express = require('express');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const router = express.Router();
-var Users = require('../models/users.js');
+const passport = require('passport');
 
-let users = new Users();
+module.exports = function (app, model) {
+    function ensureAuthenticated(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        res.redirect('/');
+    };
 
-router.post('/signup', async (req, res) => {
-    try {
-        let body = req.body;
-        console.log(body);
-        let passwordHash = await bcrypt.hashSync(body.password, saltRounds);
-
-        await users.register(
-            body.firstname,
-            body.lastname,
-            body.username,
-            body.email,
-            passwordHash
-        )
-
-        res.json({
-            message: "Successfully created Account"
+    app.post('/register', (req, res, next) => {
+        const hash = bcrypt.hashSync(req.body.password, saltRounds)
+        model.findOne({
+            where: {
+                username: req.body.username
+            }
+        }, (err, user) => {
+            if (err) {
+                next(err);
+            } else if (user) {
+                req.redirect('/');
+            } else {
+                model.create({
+                    firstname: req.firstname,
+                    lastname: req.lastname,
+                    username: req.body.username,
+                    password: hash,
+                    last_login: Date.now()
+                }, (err, doc) => {
+                    if (err) {
+                        res.redirect('/');
+                    } else {
+                        next(null, doc);
+                    }
+                })
+            }
+        }, passport.authenticate('local', {
+            failureRedirect: '/'
+        }), (req, res, next) => {
+            res.redirect('/profile');
         })
-    } catch (err) {
-        console.log(err)
-    }
-})
+    });
 
-module.exports = router;
+
+    app.post("/login", passport.authenticate("local", {
+        failureRedirect: "/"
+    }), (req, res) => {
+        res.redirect("/profile");
+    })
+
+    app.get("/profile", ensureAuthenticated, (req, res) => {
+        res.send(`Welcome ${req.user.username}`);
+    })
+
+}

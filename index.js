@@ -1,10 +1,12 @@
+require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
+const auth = require('./auth.js');
 const bodyParser = require('body-parser');
 const routes = require('./routes/routes.js');
 let Port = process.env.PORT || 3000;
-require('dotenv').config();
+var Users = require('./models/users.js');
+
+let users = new Users();
 
 // For express
 let app = express();
@@ -16,21 +18,18 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // routes
-app.use(routes);
+routes(app, users);
+
+app.use((req, res, next) => {
+    res.status(404)
+        .type('text')
+        .send('Not Found')
+});
+
+// call auth
+auth(app, users);
 
 // serve static files
 app.use(express.static(__dirname + "/public"));
-
-// For passport
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        secure: false
-    }
-}));
-app.use(passport.initialize());
-app.use(passport.session()); //persistent login sessions
 
 app.listen(Port, console.log(`Server is running on port ${Port}`));
