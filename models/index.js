@@ -10,7 +10,10 @@ let password = process.env.PASSWORD;
 
 const sequelize = new Sequelize(databse, user, password, {
     host: host,
-    dialect: "mysql"
+    dialect: "mysql",
+    define: {
+        timestamps: false
+    }
 })
 
 db.sequelize = sequelize;
