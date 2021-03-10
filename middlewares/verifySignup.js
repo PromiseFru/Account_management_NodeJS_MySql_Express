@@ -2,7 +2,7 @@ const db = require("../models");
 let User = db.user;
 let Role = db.role;
 
-checkDuplicateUsers = (req, res, next) => {
+checkDuplicateUsers = async (req, res, next) => {
     let user = await User.findOne({
         where: {
             username: req.body.username
@@ -35,6 +35,7 @@ checkDuplicateUsers = (req, res, next) => {
         })
     };
 
+    next();
 };
 
 checkRoleExists = (req, res, next) => {
