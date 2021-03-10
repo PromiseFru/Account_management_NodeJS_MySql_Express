@@ -1,16 +1,13 @@
 (async () => {
     require("dotenv").config();
     const express = require('express');
-    const bodyParser = require('body-parser');
     const port = process.env.PORT || 3000;
     let db = require('./models');
 
     let app = express();
 
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
+    app.use(express.json());
+    app.use(express.urlencoded());
 
     await db.sequelize.sync();
 
