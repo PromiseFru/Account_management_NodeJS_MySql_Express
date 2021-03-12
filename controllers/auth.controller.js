@@ -7,11 +7,14 @@ const User = db.user;
 const Role = db.role;
 
 try {
-    signup = async (req, res) => {
+    signup = async (req, res, next) => {
         let user = await User.create({
             username: req.body.username,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 10)
+        }).catch(error => {
+            error.httpStatusCode = 500;
+            return next(error)
         })
 
         if (req.body.roles) {
@@ -22,15 +25,13 @@ try {
                     }
                 }
             }).catch(error => {
-                res.status(500).send({
-                    error: error.message
-                })
+                error.httpStatusCode = 500;
+                return next(error)
             })
 
             await user.setRoles(role).catch(error => {
-                res.status(500).send({
-                    error: error.message
-                })
+                error.httpStatusCode = 500;
+                return next(error)
             })
 
             return res.status(200).send({
@@ -39,9 +40,8 @@ try {
         }
 
         await user.setRoles([2]).catch(error => {
-            res.status(500).send({
-                error: error.message
-            })
+            error.httpStatusCode = 500;
+            return next(error)
         })
 
         return res.status(200).send({
