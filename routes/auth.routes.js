@@ -4,5 +4,6 @@ const {
 } = require('../middlewares')
 
 module.exports = (app) => {
-    app.post('/signup', [verifySignup.checkDuplicateUsers], controllers.signup);
+
+    app.post('/signup', [verifySignup.checkDuplicateUsers, verifySignup.checkRoleExists], controllers.signup);
 }

@@ -7,7 +7,7 @@ const User = db.user;
 const Role = db.role;
 
 try {
-    signup = async (req, res, next) => {
+    signup = async (req, res) => {
         let user = await User.create({
             username: req.body.username,
             email: req.body.email,

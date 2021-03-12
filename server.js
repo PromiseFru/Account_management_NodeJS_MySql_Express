@@ -16,6 +16,14 @@
 
     routes(app);
 
+    let errorHandler = (err, req, res, next) => {
+        res.status(err.httpStatusCode).json({
+            error: err.message
+        });
+    }
+
+    app.use(errorHandler);
+
     app.listen(port, console.log(`Server started on port ${port}`));
 
 })().catch(err => {
