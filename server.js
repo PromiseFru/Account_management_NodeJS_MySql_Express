@@ -17,6 +17,13 @@
     routes(app);
 
     let errorHandler = (err, req, res, next) => {
+        if (err.httpStatusCode === 500) {
+            console.error(err.httpStatusCode, err.stack);
+            return res.status(err.httpStatusCode).json({
+                error: "Something Broke!"
+            })
+        }
+
         res.status(err.httpStatusCode).json({
             error: err.message
         });
