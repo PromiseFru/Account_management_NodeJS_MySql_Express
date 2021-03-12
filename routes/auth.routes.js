@@ -5,5 +5,10 @@ const {
 
 module.exports = (app) => {
 
-    app.post('/signup', [verifySignup.checkDuplicateUsers, verifySignup.checkRoleExists], controllers.signup);
+    app.post('/signup',
+        [verifySignup.checkDuplicateUsers, verifySignup.checkRoleExists],
+        controllers.signup);
+
+    app.post("/signin",
+        controllers.signin);
 }
