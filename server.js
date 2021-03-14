@@ -1,6 +1,7 @@
 (async () => {
     require("dotenv").config();
     const express = require('express');
+    const session = require("express-session");
     const port = process.env.PORT || 3000;
     let db = require('./models');
     let routes = require('./routes/auth.routes.js')
@@ -11,6 +12,15 @@
     app.use(express.urlencoded({
         extended: true
     }));
+
+    app.use(session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: true
+        }
+    }))
 
     await db.sequelize.sync();
 
