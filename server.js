@@ -4,7 +4,6 @@
     const session = require("express-session");
     const port = process.env.PORT || 3000;
     let db = require('./models');
-    let routes = require('./routes/auth.routes.js')
 
     let app = express();
 
@@ -18,13 +17,15 @@
         resave: false,
         saveUninitialized: true,
         cookie: {
-            secure: true
+            secure: false
         }
     }))
 
     await db.sequelize.sync();
 
-    routes(app);
+    // routes
+    require('./routes/auth.routes.js')(app);
+    require('./routes/user.routes.js')(app);
 
     let errorHandler = (err, req, res, next) => {
         if (err.httpStatusCode === 500) {

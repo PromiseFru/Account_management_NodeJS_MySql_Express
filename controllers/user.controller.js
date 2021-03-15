@@ -8,14 +8,19 @@ profile = async (req, res, next) => {
         return next(error);
     });
 
-    let roles = user.getRoles().catch(error => {
+    let roles = await user.getRoles().catch(error => {
         error.httpStatusCode = 500;
         return next(error);
     });
 
-    res.status(200).json({
+    let authorities = [];
+    roles.forEach(ele => {
+        authorities.push(ele.name.toUpperCase());
+    })
+
+    return res.status(200).json({
         username: user.username,
-        roles: roles
+        roles: authorities
     })
 }
 

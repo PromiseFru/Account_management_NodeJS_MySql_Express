@@ -1,4 +1,4 @@
-verifySignin = (req, res, next) => {
+checkSignin = (req, res, next) => {
     if (req.session.userId) {
         return next();
     };
@@ -9,5 +9,5 @@ verifySignin = (req, res, next) => {
 }
 
 module.exports = {
-    verifySignin
+    checkSignin
 }
