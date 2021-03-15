@@ -82,7 +82,8 @@ signin = async (req, res, next) => {
         return next(error);
     };
 
-    res.status(200).json("successful login");
+    req.session.userId = user.id;
+    res.redirect("/profile");
 }
 
 module.exports = {
