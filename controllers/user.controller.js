@@ -17,7 +17,6 @@ profile = async (req, res, next) => {
     roles.forEach(ele => {
         authorities.push(ele.name.toUpperCase());
     })
-
     return res.status(200).json({
         username: user.username,
         roles: authorities
